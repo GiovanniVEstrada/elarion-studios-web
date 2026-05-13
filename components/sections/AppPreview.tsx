@@ -5,9 +5,9 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ease } from "@/lib/motion";
 
 const screens = [
+  { label: "Tide", sublabel: "Energy rhythm tracking", color: "#4ecdc4", img: "/screenshots/tideUI.png" },
   { label: "Insights", sublabel: "Your mood, charted", color: "#74d8ff", img: "/screenshots/insightsUI.png" },
   { label: "Journal", sublabel: "Daily reflection", color: "#b58cff", img: "/screenshots/journalUI.png" },
-  { label: "Tide", sublabel: "Energy rhythm tracking", color: "#4ecdc4", img: "/screenshots/tideUI.png" },
 ];
 
 const desktopLayout = [
