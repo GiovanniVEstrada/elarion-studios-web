@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ease } from "@/lib/motion";
 
@@ -119,20 +119,35 @@ export default function AppPreview() {
   const reduced = useReducedMotion();
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [paused, setPaused] = useState(false);
+  const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const pauseAndResume = () => {
+    setPaused(true);
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => setPaused(false), 5000);
+  };
 
   useEffect(() => {
-    if (reduced) return;
+    return () => {
+      if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (reduced || paused) return;
     const id = setInterval(() => {
       setDirection(1);
       setCurrent((c) => (c + 1) % screens.length);
     }, AUTOPLAY_MS);
     return () => clearInterval(id);
-  }, [reduced]);
+  }, [reduced, paused]);
 
   const go = (index: number) => {
     if (index === current) return;
     setDirection(index > current ? 1 : -1);
     setCurrent(index);
+    pauseAndResume();
   };
 
   return (
@@ -173,6 +188,18 @@ export default function AppPreview() {
               <motion.div
                 key={current}
                 className="absolute"
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.15}
+                onDragEnd={(_e, info) => {
+                  const swipeThreshold = Math.abs(info.offset.x) > 60 || Math.abs(info.velocity.x) > 400;
+                  if (!swipeThreshold) return;
+                  const nextDir = info.offset.x < 0 ? 1 : -1;
+                  const next = (current + nextDir + screens.length) % screens.length;
+                  setDirection(nextDir);
+                  setCurrent(next);
+                  pauseAndResume();
+                }}
                 initial={{
                   x: direction > 0 ? 300 : -300,
                   y: 60,
