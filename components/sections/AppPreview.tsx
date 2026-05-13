@@ -5,9 +5,9 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ease } from "@/lib/motion";
 
 const screens = [
-  { label: "Tide", sublabel: "Energy rhythm tracking", color: "#74d8ff" },
-  { label: "Journal", sublabel: "Daily reflection", color: "#b58cff" },
-  { label: "Actions", sublabel: "Aligned task flow", color: "#4ecdc4" },
+  { label: "Insights", sublabel: "Your mood, charted", color: "#74d8ff", img: "/screenshots/insightsUI.png" },
+  { label: "Journal", sublabel: "Daily reflection", color: "#b58cff", img: "/screenshots/journalUI.png" },
+  { label: "Tide", sublabel: "Energy rhythm tracking", color: "#4ecdc4", img: "/screenshots/tideUI.png" },
 ];
 
 const desktopLayout = [
@@ -22,10 +22,12 @@ function PhoneShell({
   label,
   sublabel,
   color,
+  img,
 }: {
   label: string;
   sublabel: string;
   color: string;
+  img?: string;
 }) {
   return (
     <div
@@ -56,59 +58,80 @@ function PhoneShell({
           zIndex: 10,
         }}
       />
-      {/* Screen gradient */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: `linear-gradient(160deg, ${color}12 0%, #071929 60%, #040f19 100%)`,
-        }}
-      />
-      {/* Placeholder content */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 10,
-          padding: "0 24px",
-        }}
-      >
-        <div
+
+      {img ? (
+        /* Real screenshot */
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={img}
+          alt={label}
           style={{
-            width: 40,
-            height: 40,
-            borderRadius: "50%",
-            background: `${color}18`,
-            border: `1px solid ${color}40`,
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "top",
           }}
         />
-        <p style={{ color, fontSize: 13, fontWeight: 600, textAlign: "center" }}>
-          {label}
-        </p>
-        <p
-          style={{
-            color: "#8ca8b3",
-            fontSize: 11,
-            textAlign: "center",
-            lineHeight: 1.5,
-          }}
-        >
-          {sublabel}
-        </p>
-      </div>
-      {/* Glare */}
+      ) : (
+        <>
+          {/* Placeholder gradient */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: `linear-gradient(160deg, ${color}12 0%, #071929 60%, #040f19 100%)`,
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+              padding: "0 24px",
+            }}
+          >
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: "50%",
+                background: `${color}18`,
+                border: `1px solid ${color}40`,
+              }}
+            />
+            <p style={{ color, fontSize: 13, fontWeight: 600, textAlign: "center" }}>
+              {label}
+            </p>
+            <p
+              style={{
+                color: "#8ca8b3",
+                fontSize: 11,
+                textAlign: "center",
+                lineHeight: 1.5,
+              }}
+            >
+              {sublabel}
+            </p>
+          </div>
+        </>
+      )}
+
+      {/* Glare overlay */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           borderRadius: 36,
           background:
-            "linear-gradient(135deg, rgba(255,255,255,0.035) 0%, transparent 45%)",
+            "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 45%)",
           pointerEvents: "none",
+          zIndex: 5,
         }}
       />
     </div>
@@ -273,11 +296,7 @@ export default function AppPreview() {
         </div>
 
         <p className="mt-16 text-center text-xs text-luren-muted">
-          Final UI subject to change. Drop screenshots into{" "}
-          <code className="font-mono text-luren-muted/80">
-            /public/screenshots/
-          </code>{" "}
-          to replace placeholders.
+          Final UI subject to change.
         </p>
       </div>
     </section>
