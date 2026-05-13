@@ -1,26 +1,50 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-luren-surface: #06131f;
+  --color-luren-panel: #0a2030;
+  --color-luren-cyan: #74d8ff;
+  --color-luren-teal: #4ecdc4;
+  --color-luren-mint: #7ef0d3;
+  --color-luren-purple: #b58cff;
+  --color-luren-heading: #ecf9ff;
+  --color-luren-body: #b6d0da;
+  --color-luren-muted: #8ca8b3;
+  --font-sans: var(--font-poppins);
+  --font-heading: var(--font-playfair);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #06131f;
+  color: #b6d0da;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(90px);
+}
+
+@keyframes float-a {
+  0%, 100% { transform: translate(0px, 0px); }
+  33% { transform: translate(-40px, -30px); }
+  66% { transform: translate(25px, 20px); }
+}
+
+@keyframes float-b {
+  0%, 100% { transform: translate(0px, 0px); }
+  50% { transform: translate(40px, -50px); }
+}
+
+@keyframes float-c {
+  0%, 100% { transform: translate(0px, 0px); }
+  30% { transform: translate(-25px, 35px); }
+  70% { transform: translate(20px, -25px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: none !important;
+  }
 }
