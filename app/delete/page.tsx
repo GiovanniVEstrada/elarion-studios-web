@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "Request permanent deletion of your Luren account and all associated data, including journal entries, mood logs, habits, tasks, and reflections.",
 };
 
-const SUPPORT_EMAIL = "support@elarionstudios.org";
+const SUPPORT_EMAIL = "gvestrada@elarionstudios.org";
 const SUBJECT = "Account Deletion Request";
 
 export default function DeleteAccountPage() {
