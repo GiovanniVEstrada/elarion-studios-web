@@ -47,7 +47,7 @@ export default function DeleteAccountPage() {
               associated with your Luren account so we can locate and remove your data.
             </p>
 
-            <div className="pt-2 pb-1">
+            <div className="space-y-3 pt-2 pb-1">
               <a
                 href={mailtoHref}
                 className="inline-flex items-center gap-2.5 rounded-xl px-6 py-3.5 text-sm font-medium transition-opacity hover:opacity-90"
@@ -72,6 +72,12 @@ export default function DeleteAccountPage() {
                 </svg>
                 Send Deletion Request
               </a>
+              <p className="text-xs text-luren-muted">
+                Or email{" "}
+                <span className="font-medium text-luren-body">{SUPPORT_EMAIL}</span>
+                {" "}with subject{" "}
+                <span className="font-medium text-luren-body">&ldquo;{SUBJECT}&rdquo;</span>.
+              </p>
             </div>
 
             <div
