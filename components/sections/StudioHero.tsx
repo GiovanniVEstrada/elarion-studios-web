@@ -3,34 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ease } from "@/lib/motion";
 import CTAButton from "@/components/ui/CTAButton";
-import OrbBackground from "@/components/ui/OrbBackground";
-
-const orbs = [
-  {
-    size: 560,
-    color: "rgba(116,216,255,0.2)",
-    top: "-150px",
-    left: "-160px",
-    animation: "float-a" as const,
-    duration: 22,
-  },
-  {
-    size: 440,
-    color: "rgba(78,205,196,0.16)",
-    top: "30%",
-    right: "-110px",
-    animation: "float-b" as const,
-    duration: 28,
-  },
-  {
-    size: 360,
-    color: "rgba(181,140,255,0.14)",
-    bottom: "-80px",
-    left: "25%",
-    animation: "float-c" as const,
-    duration: 34,
-  },
-];
+import WaveField from "@/components/WaveField";
 
 export default function StudioHero() {
   const reduced = useReducedMotion();
@@ -38,7 +11,7 @@ export default function StudioHero() {
 
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-luren-surface px-6 pt-32 pb-24">
-      <OrbBackground orbs={orbs} />
+      <WaveField className="absolute inset-0 pointer-events-none" />
 
       <div className="relative z-10 mx-auto max-w-3xl text-center">
         <motion.p
