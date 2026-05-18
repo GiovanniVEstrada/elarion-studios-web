@@ -12,6 +12,7 @@ export default function StudioHero() {
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-luren-surface px-6 pt-32 pb-24">
       <WaveField className="absolute inset-0 pointer-events-none" />
+      <div className="absolute inset-0 z-[2] pointer-events-none" style={{ backdropFilter: 'blur(3px)' }} />
 
       <div className="relative z-10 mx-auto max-w-3xl text-center">
         <motion.p
@@ -61,7 +62,7 @@ export default function StudioHero() {
       </div>
 
       <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-[3]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.1, duration: 0.6 }}
