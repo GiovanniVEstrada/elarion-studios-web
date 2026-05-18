@@ -23,6 +23,10 @@ export default function RippleField({ className = '', style = {} }: RippleFieldP
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Pin as non-nullable so closures don't lose the narrowing
+    const el  = canvas;
+    const gfx = ctx;
+
     let W = 0, H = 0, cellW = 0, cellH = 0;
     let rows = 0;
     let grid = new Float32Array(0);
@@ -32,12 +36,12 @@ export default function RippleField({ className = '', style = {} }: RippleFieldP
 
     function resize() {
       const dpr  = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
+      const rect = el.getBoundingClientRect();
       W = rect.width;
       H = rect.height;
-      canvas.width  = W * dpr;
-      canvas.height = H * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      el.width  = W * dpr;
+      el.height = H * dpr;
+      gfx.setTransform(dpr, 0, 0, dpr, 0, 0);
       cellW = W / COLS;
       // Derive rows so cells are square — ripples stay circular on any aspect ratio
       rows  = Math.max(1, Math.round(H / cellW));
@@ -76,7 +80,7 @@ export default function RippleField({ className = '', style = {} }: RippleFieldP
     }
 
     function draw() {
-      ctx.clearRect(0, 0, W, H);
+      gfx.clearRect(0, 0, W, H);
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < COLS; c++) {
           const v    = grid[idx(c, r)];
@@ -89,8 +93,8 @@ export default function RippleField({ className = '', style = {} }: RippleFieldP
           const lit    = 10  + bright * 55;
           const alpha  = 0.08 + bright * 0.85;
 
-          ctx.fillStyle = `hsla(${hue},${sat}%,${lit}%,${alpha})`;
-          ctx.fillRect(c * cellW, r * cellH, cellW + 0.5, cellH + 0.5);
+          gfx.fillStyle = `hsla(${hue},${sat}%,${lit}%,${alpha})`;
+          gfx.fillRect(c * cellW, r * cellH, cellW + 0.5, cellH + 0.5);
         }
       }
     }
@@ -112,29 +116,29 @@ export default function RippleField({ className = '', style = {} }: RippleFieldP
     }
 
     function handleClick(e: MouseEvent) {
-      const rect = canvas.getBoundingClientRect();
+      const rect = el.getBoundingClientRect();
       drop(e.clientX - rect.left, e.clientY - rect.top, 1.8);
     }
 
     function handleTouch(e: TouchEvent) {
-      const rect = canvas.getBoundingClientRect();
+      const rect = el.getBoundingClientRect();
       const t = e.changedTouches[0];
       drop(t.clientX - rect.left, t.clientY - rect.top, 1.8);
     }
 
-    canvas.addEventListener('click', handleClick);
-    canvas.addEventListener('touchend', handleTouch, { passive: true });
+    el.addEventListener('click', handleClick);
+    el.addEventListener('touchend', handleTouch, { passive: true });
 
     const ro = new ResizeObserver(resize);
-    ro.observe(canvas);
+    ro.observe(el);
     resize();
     rafRef.current = requestAnimationFrame(loop);
 
     return () => {
       ro.disconnect();
       cancelAnimationFrame(rafRef.current);
-      canvas.removeEventListener('click', handleClick);
-      canvas.removeEventListener('touchend', handleTouch);
+      el.removeEventListener('click', handleClick);
+      el.removeEventListener('touchend', handleTouch);
     };
   }, []);
 
