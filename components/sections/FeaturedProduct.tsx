@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ease } from "@/lib/motion";
@@ -114,15 +115,18 @@ export default function FeaturedProduct() {
                 }}
               >
                 <div
-                  className="flex h-14 w-14 items-center justify-center rounded-2xl"
+                  className="flex h-14 w-14 items-center justify-center rounded-2xl overflow-hidden"
                   style={{
                     background: "rgba(116,216,255,0.1)",
                     border: "1px solid rgba(116,216,255,0.25)",
                   }}
                 >
-                  <div
-                    className="h-5 w-5 rounded-full"
-                    style={{ background: "#74d8ff" }}
+                  <Image
+                    src="/LurenLogo2.png"
+                    alt="Luren"
+                    width={56}
+                    height={56}
+                    className="object-contain"
                   />
                 </div>
                 <p className="font-heading text-xl italic text-luren-heading">
